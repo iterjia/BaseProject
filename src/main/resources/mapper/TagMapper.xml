@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.modules.tag.mapper.TagMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="tagResultMap" type="Tag">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="top_flag" property="topFlag"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="tagResultMap">
+        select * from t_tag where id = #{id}
+    </select>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="tagResultMap">
+        select * from t_tag
+        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+    </select>
+
+    <insert id="insert" parameterType="Tag">
+        insert into t_tag(name, top_flag) values(#{name}, #{topFlag})
+    </insert>
+
+    <update id="updateById" parameterType="Tag">
+        update t_tag set
+        <if test="name != null">
+            name = #{name},
+        </if>
+        <if test="topFlag != null">
+            top_flag = #{topFlag},
+        </if>
+        id = #{id} where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from t_tag where id=#{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from t_tag where id in (${ids})
+    </delete>
+
+</mapper>
