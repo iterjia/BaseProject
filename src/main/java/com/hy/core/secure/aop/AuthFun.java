@@ -15,7 +15,7 @@
  */
 package com.hy.core.secure.aop;
 
-import com.hy.common.tool.Func;
+import com.hy.common.tool.Utils;
 import com.hy.core.secure.utils.TokenUtil;
 
 public class AuthFun {
@@ -55,13 +55,13 @@ public class AuthFun {
 	 * @return {boolean}
 	 */
 	public boolean hasAnyRole(String... requireRoles) {
-		String cachedUserRole = TokenUtil.extractUser().getRoleName();
-		if (Func.isBlank(cachedUserRole)) {
+		String cachedUserRole = TokenUtil.extractTokenStub().getRoleNames();
+		if (Utils.isBlank(cachedUserRole)) {
 			return false;
 		}
-		String[] userRoles = Func.toStrArray(cachedUserRole);
+		String[] userRoles = Utils.toStrArray(cachedUserRole);
 		for (String requireRole : requireRoles) {
-			if (Func.contains(userRoles, requireRole)) {
+			if (Utils.contains(userRoles, requireRole)) {
 				return true;
 			}
 		}

@@ -8,8 +8,9 @@ import java.util.List;
 public interface BaseService<T> {
     List<T> selectList(QueryParam param);
     T selectById(Serializable id);
+    int selectCount(QueryParam param);
     int insert(T entity);
     int updateById(T entity);
-    int deleteById(Serializable id);
-    int deleteByIds(String ids);
+    int delete(String ids);
+    int logicDelete(String ids);
 }

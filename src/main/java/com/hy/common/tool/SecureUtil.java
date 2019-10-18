@@ -1,4 +1,4 @@
-package com.hy.core.secure.utils;
+package com.hy.common.tool;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Hex;
@@ -39,14 +39,14 @@ public class SecureUtil {
     public static String toMd5Hex(String src) {
         byte[] bs;
         try {
-            bs = toMd5Byte(src.getBytes(UTF8));
+            bs = toMd5Bytes(src.getBytes(UTF8));
         } catch (UnsupportedEncodingException e) {
             return null;
         }
         return new String(new Hex().encode(bs));
     }
 
-    private static byte[] toMd5Byte(byte[] data) {
+    public static byte[] toMd5Bytes(byte[] data) {
         MessageDigest md5 = null;
         try {
             md5 = MessageDigest.getInstance("MD5");
@@ -74,28 +74,28 @@ public class SecureUtil {
         }
     }
 
-    public static byte[] fromBase64B(byte[] bytes) {
+    public static byte[] decodeBase64B2B(byte[] bytes) {
         return Base64.getDecoder().decode(bytes);
     }
 
-    public static byte[] fromBase64B(String src) {
-        return fromBase64B(src, UTF8);
+    public static byte[] decodeBase64ToBytes(String src) {
+        return decodeBase64S2B(src, UTF8);
     }
 
-    public static byte[] fromBase64B(String src, String charsetName) {
+    public static byte[] decodeBase64S2B(String src, String charsetName) {
         try {
-            return fromBase64B(src.getBytes(charsetName));
+            return decodeBase64B2B(src.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
             return null;
         }
     }
 
-    public static String fromBase64S(String src) {
-        return fromBase64S(src, UTF8);
+    public static String decodeBase64ToString(String src) {
+        return decodeBase64S2S(src, UTF8);
     }
 
-    public static String fromBase64S(String src, String charsetName) {
-        return new String(fromBase64B(src, charsetName));
+    public static String decodeBase64S2S(String src, String charsetName) {
+        return new String(decodeBase64S2B(src, charsetName));
     }
 
     //****************************Random******************************//

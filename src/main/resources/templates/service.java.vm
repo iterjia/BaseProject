@@ -1,0 +1,8 @@
+package com.hy.modules.$!{module.name}.service;
+
+import com.hy.common.base.service.BaseService;
+import com.hy.modules.$!{module.name}.entity.$!{module.capitalName};
+
+public interface $!{module.capitalName}Service extends BaseService<$!{module.capitalName}> {
+
+}

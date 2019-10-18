@@ -1,0 +1,15 @@
+package com.hy.modules.$!{module.name}.entity;
+
+import com.hy.common.base.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class $!{module.capitalName} extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
+#foreach($field in $!{module.tableFields})#if(!$field.entityExclude)
+    private $!{field.propDataType} $!{field.propName};
+#end#end
+}

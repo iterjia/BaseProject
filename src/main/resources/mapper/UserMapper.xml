@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.modules.user.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="User">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="userResultMap">
+        select * from t_user where id = #{id}
+    </select>
+
+    <select id="selectByLoginName" resultMap="userResultMap">
+        select * from t_user where login_name = #{loginName} and del_flag != 1
+    </select>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="userResultMap">
+        select * from t_user
+        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+    </select>
+
+    <select id="selectCount" parameterType="QueryParam" resultType="int">
+        select count(id) from t_user
+        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+    </select>
+
+    <select id="selectRolePerms" resultType="Map">
+        select op_url opUrl, group_concat(role_id) roles from v_role_perms group by op_url
+    </select>
+
+    <select id="selectRoles" resultType="Map">
+        select group_concat(a.role_id) roleIds, group_concat(b.`name`) roleNames
+        from t_user_role a left join t_role b on a.role_id = b.id
+        where a.user_id = #{userId} group by a.user_id
+    </select>
+
+    <insert id="insert" parameterType="User">
+        insert into t_user(name, password, login_name)
+        values(#{name}, #{password}, #{loginName})
+    </insert>
+
+    <update id="updateById" parameterType="User">
+        update t_user set
+        <if test="name != null">
+            name = #{name},
+        </if>
+        <if test="password != null">
+            password = #{password},
+        </if>
+        <if test="delFlag != null">
+            del_flag = #{delFlag},
+        </if>
+        id = #{id} where id = #{id}
+    </update>
+
+    <delete id="logicDelete">
+        update t_user set del_flag=1 where id in (${ids})
+    </delete>
+
+    <delete id="delete">
+        delete from t_user where id in (${ids})
+    </delete>
+
+</mapper>

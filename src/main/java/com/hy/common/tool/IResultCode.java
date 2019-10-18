@@ -19,6 +19,9 @@ import java.io.Serializable;
 
 public interface IResultCode extends Serializable {
 
+	int SC_ACCESS_TOKEN_EXPIRED = 499;
+	int SC_REFRESH_TOKEN_EXPIRED = 498;
+
 	/**
 	 * 消息
 	 *

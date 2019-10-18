@@ -16,7 +16,7 @@
 package com.hy.core.secure.aop;
 
 import com.hy.core.secure.exception.SecureException;
-import com.hy.common.tool.Func;
+import com.hy.common.tool.Utils;
 import com.hy.common.tool.ResultCode;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -69,10 +69,10 @@ public class AuthAspect implements ApplicationContextAware {
 		MethodSignature ms = (MethodSignature) point.getSignature();
 		Method method = ms.getMethod();
 		// 读取权限注解，优先方法上，没有则读取类
-		PreAuth preAuth = Func.getAnnotation(method, PreAuth.class);
+		PreAuth preAuth = Utils.getAnnotation(method, PreAuth.class);
 		// 判断表达式
 		String condition = preAuth.value();
-		if (Func.isNotBlank(condition)) {
+		if (Utils.isNotBlank(condition)) {
 			Expression expression = SPEL_PARSER.parseExpression(condition);
 			// 方法参数值
 			Object[] args = point.getArgs();
@@ -96,7 +96,7 @@ public class AuthAspect implements ApplicationContextAware {
 		context.setBeanResolver(new BeanFactoryResolver(applicationContext));
 		for (int i = 0; i < args.length; i++) {
 			// 读取方法参数
-			MethodParameter methodParam = Func.getMethodParameter(method, i);
+			MethodParameter methodParam = Utils.getMethodParameter(method, i);
 			// 设置方法 参数名和值 为sp el变量
 			context.setVariable(methodParam.getParameterName(), args[i]);
 		}

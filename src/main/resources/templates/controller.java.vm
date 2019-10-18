@@ -1,0 +1,85 @@
+package com.hy.modules.$!{module.name}.controller;
+
+import com.hy.common.base.entity.PageData;
+import com.hy.common.tool.Utils;
+import com.hy.common.tool.R;
+import com.hy.common.base.entity.QueryParam;
+import com.hy.modules.$!{module.name}.entity.$!{module.capitalName};
+import com.hy.modules.$!{module.name}.service.$!{module.capitalName}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("$!{module.name}")
+public class $!{module.capitalName}Controller {
+
+    @Autowired
+    private $!{module.capitalName}Service $!{module.name}Service;
+
+    /**
+     * 查询列表
+     */
+    @PostMapping("/list")
+    public R<List<$!{module.capitalName}>> list(@RequestBody(required = false) QueryParam param) {
+        List<$!{module.capitalName}> list = $!{module.name}Service.selectList(param);
+        return R.data(list);
+    }
+
+    /**
+     * 查询单页数据
+     */
+    @PostMapping("/page")
+    public R<PageData> page(@RequestBody(required = false) QueryParam param) {
+        List<$!{module.capitalName}> list = $!{module.name}Service.selectList(param);
+        int total = $!{module.name}Service.selectCount(param);
+        return R.data(new PageData(total, list));
+    }
+
+    /**
+     * 查询单条
+     */
+    @GetMapping("/{id}")
+    public R<$!{module.capitalName}> detail(@PathVariable String id) {
+        $!{module.capitalName} detail = $!{module.name}Service.selectById(id);
+        return R.data(detail);
+    }
+
+    /**
+     * 添加
+     */
+    @PostMapping("")
+    public R insert(@RequestBody $!{module.capitalName} $!{module.name}) {
+        return R.status(Utils.retBool($!{module.name}Service.insert($!{module.name})));
+    }
+
+    /**
+     * 修改
+     */
+    @PutMapping("")
+    public R update(@RequestBody $!{module.capitalName} $!{module.name}) {
+        if ($!{module.name}.getId() > 0) {
+            return R.status(Utils.retBool($!{module.name}Service.updateById($!{module.name})));
+        } else {
+            return R.missParam("userId");
+        }
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/ids")
+    public R delete(@RequestParam String ids) {
+        return R.status(Utils.retBool($!{module.name}Service.delete(ids)));
+    }
+
+    /**
+     * 批量删除
+     */
+    @DeleteMapping("/logic/ids")
+    public R logicDelete(@RequestParam String ids) {
+        return R.status(Utils.retBool($!{module.name}Service.logicDelete(ids)));
+    }
+
+}

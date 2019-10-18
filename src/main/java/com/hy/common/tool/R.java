@@ -15,7 +15,9 @@
  */
 package com.hy.common.tool;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hy.common.constant.CommonConst;
+import com.hy.common.constant.MsgConst;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +33,7 @@ import java.util.Optional;
 @Setter
 @ToString
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class R<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -93,7 +96,7 @@ public class R<T> implements Serializable {
 	 * @return R
 	 */
 	public static <T> R<T> data(T data) {
-		return data(data, CommonConst.DEFAULT_SUCCESS_MESSAGE);
+		return data(data, MsgConst.OP_SUCCESS);
 	}
 
 	/**
@@ -118,7 +121,7 @@ public class R<T> implements Serializable {
 	 * @return R
 	 */
 	public static <T> R<T> data(int code, T data, String msg) {
-		return new R<>(code, data, data == null ? CommonConst.DEFAULT_NULL_MESSAGE : msg);
+		return new R<>(code, data, data == null ? MsgConst.EMPTY_DATA : msg);
 	}
 
 	/**
@@ -209,7 +212,23 @@ public class R<T> implements Serializable {
 	 * @return R
 	 */
 	public static <T> R<T> status(boolean flag) {
-		return flag ? success(CommonConst.DEFAULT_SUCCESS_MESSAGE) : fail(CommonConst.DEFAULT_FAILURE_MESSAGE);
+		return flag ? success(MsgConst.OP_SUCCESS) : fail(MsgConst.OP_FAILURE);
+	}
+
+	/**
+	 * 缺少必要参数时
+	 *
+	 * @param params 参数名数组
+	 * @param <T>  T 泛型标记
+	 * @return R
+	 */
+	public static <T> R<T> missParam(String... params) {
+		if (params != null && params.length > 0) {
+			String msg = String.format(MsgConst.MISS_PARAM, String.join(",", params));
+			return new R<>(HttpServletResponse.SC_BAD_REQUEST, null, msg);
+		} else {
+			return new R<>(ResultCode.PARAM_MISS);
+		}
 	}
 
 }

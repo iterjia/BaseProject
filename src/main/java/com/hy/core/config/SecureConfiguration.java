@@ -17,7 +17,7 @@ package com.hy.core.config;
 
 
 import com.hy.core.config.registry.SecureRegistry;
-import com.hy.core.intercept.SecureInterceptor;
+import com.hy.core.secure.intercept.SecureInterceptor;
 import com.hy.core.secure.aop.AuthAspect;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

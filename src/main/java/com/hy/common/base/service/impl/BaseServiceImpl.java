@@ -24,6 +24,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> impl
     }
 
     @Override
+    public int selectCount(QueryParam param) {
+        return baseMapper.selectCount(param);
+    }
+
+    @Override
     public int insert(T entity) {
         return baseMapper.insert(entity);
     }
@@ -34,12 +39,12 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> impl
     }
 
     @Override
-    public int deleteById(Serializable id) {
-        return baseMapper.deleteById(id);
+    public int delete(String ids) {
+        return baseMapper.delete(ids);
     }
 
     @Override
-    public int deleteByIds(String ids) {
-        return baseMapper.deleteByIds(ids);
+    public int logicDelete(String ids) {
+        return baseMapper.logicDelete(ids);
     }
 }

@@ -35,6 +35,16 @@ public enum ResultCode implements IResultCode {
 	FAILURE(HttpServletResponse.SC_BAD_REQUEST, "业务异常"),
 
 	/**
+	 * access_token过期
+	 */
+	ACCESS_TOKEN_EXPIRED(SC_ACCESS_TOKEN_EXPIRED, "access_token已过期"),
+
+	/**
+	 * refresh_token过期
+	 */
+	REFRESH_TOKEN_EXPIRED(SC_REFRESH_TOKEN_EXPIRED, "refresh_token已过期"),
+
+	/**
 	 * 请求未授权
 	 */
 	UN_AUTHORIZED(HttpServletResponse.SC_UNAUTHORIZED, "请求未授权"),

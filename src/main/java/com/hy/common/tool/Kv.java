@@ -92,7 +92,7 @@ public class Kv extends LinkedCaseInsensitiveMap<Object> {
 	 * @return 字段值
 	 */
 	public String getStr(String attr) {
-		return Func.toStr(get(attr), null);
+		return Utils.toStr(get(attr), null);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class Kv extends LinkedCaseInsensitiveMap<Object> {
 	 * @return 字段值
 	 */
 	public Integer getInt(String attr) {
-		return Func.toInt(get(attr), -1);
+		return Utils.toInt(get(attr), -1);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Kv extends LinkedCaseInsensitiveMap<Object> {
 	 * @return 字段值
 	 */
 	public Long getLong(String attr) {
-		return Func.toLong(get(attr), -1L);
+		return Utils.toLong(get(attr), -1L);
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class Kv extends LinkedCaseInsensitiveMap<Object> {
 	 * @return 字段值
 	 */
 	public Float getFloat(String attr) {
-		return Func.toFloat(get(attr), null);
+		return Utils.toFloat(get(attr), null);
 	}
 
 	public Double getDouble(String attr) {
-		return Func.toDouble(get(attr), null);
+		return Utils.toDouble(get(attr), null);
 	}
 
 
@@ -137,7 +137,7 @@ public class Kv extends LinkedCaseInsensitiveMap<Object> {
 	 * @return 字段值
 	 */
 	public Boolean getBool(String attr) {
-		return Func.toBoolean(get(attr), null);
+		return Utils.toBoolean(get(attr), null);
 	}
 
 	/**

@@ -1,0 +1,11 @@
+package com.hy.modules.$!{module.name}.service.impl;
+
+import com.hy.common.base.service.impl.BaseServiceImpl;
+import com.hy.modules.$!{module.name}.entity.$!{module.capitalName};
+import com.hy.modules.$!{module.name}.mapper.$!{module.capitalName}Mapper;
+import com.hy.modules.$!{module.name}.service.$!{module.capitalName}Service;
+import org.springframework.stereotype.Service;
+
+@Service
+public class $!{module.capitalName}ServiceImpl extends BaseServiceImpl<$!{module.capitalName}Mapper, $!{module.capitalName}> implements $!{module.capitalName}Service {
+}

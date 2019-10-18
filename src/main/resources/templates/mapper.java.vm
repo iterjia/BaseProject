@@ -1,0 +1,8 @@
+package com.hy.modules.$!{module.name}.mapper;
+
+import com.hy.common.base.mapper.BaseMapper;
+import com.hy.modules.$!{module.name}.entity.$!{module.capitalName};
+
+public interface $!{module.capitalName}Mapper extends BaseMapper<$!{module.capitalName}> {
+
+}

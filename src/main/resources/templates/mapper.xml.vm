@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.modules.$!{module.name}.mapper.$!{module.capitalName}Mapper">
+
+    <resultMap id="$!{module.name}ResultMap" type="$!{module.capitalName}">
+    #foreach($field in $!{module.tableFields})
+        <result column="$!{field.colName}" property="$!{field.propName}"/>
+    #end
+    </resultMap>
+
+    <select id="selectById" resultMap="$!{module.name}ResultMap">
+        select * from $!{module.tableName} where id = #{id}
+    </select>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="$!{module.name}ResultMap">
+        select * from $!{module.tableName}
+        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+    </select>
+
+    <select id="selectCount" parameterType="QueryParam" resultType="int">
+        select count(id) from $!{module.tableName}
+        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+    </select>
+
+    <insert id="insert" parameterType="$!{module.capitalName}">
+        insert into $!{module.tableName}(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")$!{field.colName}#if($!{velocityCount} < $module.tableFields.size() - 1),#end#end#end)
+        values(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")#{$!{field.propName}}#if($!{velocityCount} < $module.tableFields.size() - 1),#end#end#end)
+    </insert>
+
+    <update id="updateById" parameterType="$!{module.capitalName}">
+        update $!{module.tableName} set
+        #foreach($field in $!{module.tableFields})
+            #if(!${field.autoInc})
+                <if test="$!{field.propName} != null">
+                    $!{field.colName} = #{$!{field.propName}},
+                </if>
+            #end
+        #end
+        id = #{id} where id = #{id}
+    </update>
+
+    <delete id="logicDelete">
+        update $!{module.tableName} set del_flag=1 where id in (${ids})
+    </delete>
+
+    <delete id="delete">
+        delete from $!{module.tableName} where id in (${ids})
+    </delete>
+
+</mapper>

@@ -1,8 +1,8 @@
 package com.hy.core.secure.utils;
 
-import com.hy.core.secure.entity.AuthUser;
+import com.hy.core.secure.entity.TokenStub;
 import com.hy.core.secure.entity.TokenInfo;
-import com.hy.common.tool.Func;
+import com.hy.common.tool.Utils;
 import com.hy.common.tool.WebUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -33,6 +33,8 @@ public class TokenUtil {
     public final static String REFRESH_TOKEN = "refresh_token";
 
     private final static String TOKEN_SECRET_STR = "hello_hy";
+    private final static String AUTH_TYPE_BEARER = "Bearer";
+    private final static String REQUEST_ATTR_TOKEN_CLAIMS = "_REQUEST_ATTR_TOKEN_CLAIMS_";
     private final static int ACCESS_TOKEN_VALIDITY = 3600;
     private final static int REFRESH_TOKEN_VALIDITY = 604800;
     private final static byte[] TOKEN_SECRET = TOKEN_SECRET_STR.getBytes(Charsets.UTF_8);
@@ -104,32 +106,55 @@ public class TokenUtil {
         return cal.getTimeInMillis() - System.currentTimeMillis();
     }
 
+    public static boolean isExpired(Claims claims) {
+        return Calendar.getInstance().before(claims.getExpiration());
+    }
+
     public static Claims getClaims(HttpServletRequest request) {
-        String auth = request.getHeader("self-auth");
-        if ((auth != null) && (auth.length() > 9)) {
-            return parseJWT(auth);
+        if (request == null) {
+            return null;
         }
-        return null;
+
+        Object claims = request.getAttribute(REQUEST_ATTR_TOKEN_CLAIMS);
+        if (claims != null) {
+            return (Claims)claims;
+        }
+
+        String auth = request.getHeader("Authorization");
+        if (auth == null) {
+            return null;
+        }
+
+        String[] authPart = auth.split(" ");
+        if (authPart == null || authPart.length < 2 || !AUTH_TYPE_BEARER.equals(authPart[0])) {
+            return null;
+        }
+
+        Claims parseResult = parseJWT(authPart[1]);
+        request.setAttribute(REQUEST_ATTR_TOKEN_CLAIMS, parseResult);
+        return parseResult;
     }
 
-    public static AuthUser extractUser() {
+    public static TokenStub extractTokenStub() {
         HttpServletRequest request = WebUtil.getRequest();
-        return extractUser(request);
+        if (request == null) {
+            return null;
+        }
+
+        Claims claims = getClaims(request);
+        return extractTokenStub(claims);
     }
 
-    public static AuthUser extractUser(HttpServletRequest request) {
-        Object user = request.getAttribute("_USER_REQUEST_ATTR_");
-        if (user == null) {
-            Claims claims = getClaims(request);
-            if (claims == null) {
-                return null;
-            }
-
-            user = new AuthUser();
-            ((AuthUser) user).setId(Func.toInt(claims.get("id")));
-            ((AuthUser) user).setName(Func.toStr(claims.get("name")));
-            request.setAttribute("_USER_REQUEST_ATTR_", user);
+    public static TokenStub extractTokenStub(Claims claims) {
+        if (claims == null) {
+            return null;
         }
-        return (AuthUser) user;
+
+        TokenStub tokenStub = new TokenStub();
+        tokenStub.setUserId(Utils.toInt(claims.get(TokenStub.USER_ID)));
+        tokenStub.setAccount(Utils.toStr(claims.get(TokenStub.ACCOUNT)));
+        tokenStub.setRoleIds(Utils.toStr(claims.get(TokenStub.ROLE_IDS)));
+        tokenStub.setRoleNames(Utils.toStr(claims.get(TokenStub.ROLE_NAMES)));
+        return tokenStub;
     }
 }
