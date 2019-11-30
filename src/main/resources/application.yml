@@ -19,6 +19,8 @@ spring:
     active: dev
   main:
     banner-mode: "off"
+    # for easypoi
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource

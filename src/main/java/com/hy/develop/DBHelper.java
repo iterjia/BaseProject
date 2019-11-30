@@ -70,10 +70,11 @@ public class DBHelper {
     }
 
     public static void main(String[] args) {
-        DBHelper helper = new DBHelper();
-        helper.getTableFields("t_user");
-        helper.release();
+//        DBHelper helper = new DBHelper();
+//        helper.getTableFields("t_user");
+//        helper.release();
 
         System.out.println(Utils.underLine2Camel("_A_b_c_"));
+        System.out.println(Boolean.parseBoolean("true"));
     }
 }

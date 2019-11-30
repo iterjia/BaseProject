@@ -46,11 +46,11 @@ public class AutoGenerator {
 
     private void generateFiles() {
         generateEntityJava();
-//        generateMapperJava();
-//        generateMapperXml();
-//        generateServiceJava();
-//        generateServiceImplJava();
-//        generateControllerJava();
+        generateMapperJava();
+        generateMapperXml();
+        generateServiceJava();
+        generateServiceImplJava();
+        generateControllerJava();
     }
 
     private void generateEntityJava() {
@@ -105,7 +105,7 @@ public class AutoGenerator {
     }
 
     public static void main(String[] args) {
-        AutoGenerator generator = new AutoGenerator("");
-        generator.generateFiles();
+//        AutoGenerator generator = new AutoGenerator("group", "t_eval_group");
+//        generator.generateFiles();
     }
 }

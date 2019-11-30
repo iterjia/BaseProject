@@ -4,7 +4,7 @@ import com.hy.common.constant.MsgConst;
 import com.hy.common.tool.Kv;
 import com.hy.common.tool.R;
 import com.hy.common.tool.Utils;
-import com.hy.core.config.RedisConfiguration;
+import com.hy.core.config.RedisConfig;
 import com.hy.core.secure.entity.TokenInfo;
 import com.hy.core.secure.entity.TokenStub;
 import com.hy.core.secure.utils.TokenUtil;
@@ -49,9 +49,9 @@ public class AuthController {
             authInfo.setRefreshToken(refreshToken.getToken());
 
             Map<String, String> rolePerms = userService.selectRolePerms();
-            redisTemplate.opsForHash().putAll(RedisConfiguration.CACHE_NAME_PERMS, rolePerms);
-            request.setAttribute(RedisConfiguration.CACHE_NAME_PERMS, rolePerms);
-            Object value = redisTemplate.opsForHash().get(RedisConfiguration.CACHE_NAME_PERMS, "all:/system/");
+            redisTemplate.opsForHash().putAll(RedisConfig.CACHE_NAME_PERMS, rolePerms);
+            request.setAttribute(RedisConfig.CACHE_NAME_PERMS, rolePerms);
+            Object value = redisTemplate.opsForHash().get(RedisConfig.CACHE_NAME_PERMS, "all:/system/");
             log.info(value.toString());
             return R.data(authInfo);
         } else {

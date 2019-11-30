@@ -33,6 +33,8 @@ public class $!{module.capitalName}Controller {
     @PostMapping("/page")
     public R<PageData> page(@RequestBody(required = false) QueryParam param) {
         List<$!{module.capitalName}> list = $!{module.name}Service.selectList(param);
+
+        param.setLimit(0);
         int total = $!{module.name}Service.selectCount(param);
         return R.data(new PageData(total, list));
     }
@@ -40,7 +42,7 @@ public class $!{module.capitalName}Controller {
     /**
      * 查询单条
      */
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public R<$!{module.capitalName}> detail(@PathVariable String id) {
         $!{module.capitalName} detail = $!{module.name}Service.selectById(id);
         return R.data(detail);
@@ -69,17 +71,17 @@ public class $!{module.capitalName}Controller {
     /**
      * 删除
      */
-    @DeleteMapping("/ids")
-    public R delete(@RequestParam String ids) {
-        return R.status(Utils.retBool($!{module.name}Service.delete(ids)));
+    @DeleteMapping("/{id}")
+    public R delete(@PathVariable String id) {
+        return R.status(Utils.retBool($!{module.name}Service.delete(id)));
     }
 
     /**
-     * 批量删除
+     * 逻辑删除
      */
-    @DeleteMapping("/logic/ids")
-    public R logicDelete(@RequestParam String ids) {
-        return R.status(Utils.retBool($!{module.name}Service.logicDelete(ids)));
+    @DeleteMapping("/logic/{id}")
+    public R logicDelete(@PathVariable String id) {
+        return R.status(Utils.retBool($!{module.name}Service.logicDelete(id)));
     }
 
 }

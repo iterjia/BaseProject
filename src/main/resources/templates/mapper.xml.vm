@@ -23,8 +23,8 @@
     </select>
 
     <insert id="insert" parameterType="$!{module.capitalName}">
-        insert into $!{module.tableName}(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")$!{field.colName}#if($!{velocityCount} < $module.tableFields.size() - 1),#end#end#end)
-        values(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")#{$!{field.propName}}#if($!{velocityCount} < $module.tableFields.size() - 1),#end#end#end)
+        insert into $!{module.tableName}(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")$!{field.colName}#if($!{velocityCount} < $module.tableFields.size()),#end#end#end)
+        values(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")#{$!{field.propName}}#if($!{velocityCount} < $module.tableFields.size()),#end#end#end)
     </insert>
 
     <update id="updateById" parameterType="$!{module.capitalName}">

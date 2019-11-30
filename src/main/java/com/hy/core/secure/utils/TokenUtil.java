@@ -107,7 +107,9 @@ public class TokenUtil {
     }
 
     public static boolean isExpired(Claims claims) {
-        return Calendar.getInstance().before(claims.getExpiration());
+        Calendar checkDate = Calendar.getInstance();
+        checkDate.setTime(claims.getExpiration());
+        return Calendar.getInstance().after(checkDate);
     }
 
     public static Claims getClaims(HttpServletRequest request) {

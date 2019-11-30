@@ -17,21 +17,34 @@ package com.hy.core.config;
 
 
 import com.hy.core.config.registry.SecureRegistry;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import com.hy.core.secure.intercept.SecureInterceptor;
+import com.hy.core.secure.aop.AuthAspect;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Order
 @Configuration
-@AutoConfigureBefore(SecureConfiguration.class)
-public class RegistryConfiguration {
+@AllArgsConstructor
+public class WebConfig implements WebMvcConfigurer {
+
+	private final SecureRegistry secureRegistry;
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		if (secureRegistry.isEnable()) {
+			registry.addInterceptor(new SecureInterceptor())
+				.excludePathPatterns(secureRegistry.getExcludePatterns())
+				.excludePathPatterns(secureRegistry.getDefaultExcludePatterns());
+		}
+	}
 
 	@Bean
-	@ConditionalOnMissingBean(SecureRegistry.class)
-	public SecureRegistry secureRegistry() {
-		return new SecureRegistry();
+	public AuthAspect authAspect() {
+		return new AuthAspect();
 	}
 
 }
