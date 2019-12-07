@@ -22,7 +22,7 @@
         <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
     </select>
 
-    <insert id="insert" parameterType="$!{module.capitalName}">
+    <insert id="insert" parameterType="$!{module.capitalName}" useGeneratedKeys="true" keyProperty="id">
         insert into $!{module.tableName}(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")$!{field.colName}#if($!{velocityCount} < $module.tableFields.size()),#end#end#end)
         values(#foreach($field in $!{module.tableFields})#if(!$field.autoInc && $field.colName != "del_flag")#{$!{field.propName}}#if($!{velocityCount} < $module.tableFields.size()),#end#end#end)
     </insert>
