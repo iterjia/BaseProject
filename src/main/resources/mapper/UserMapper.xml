@@ -19,12 +19,12 @@
 
     <select id="selectList" parameterType="QueryParam" resultMap="userResultMap">
         select * from t_user
-        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+        <include refid="com.hy.common.base.mapper.CmnMapper.orderAndLimitSql"/>
     </select>
 
     <select id="selectCount" parameterType="QueryParam" resultType="int">
         select count(id) from t_user
-        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+        <include refid="com.hy.common.base.mapper.CmnMapper.orderAndLimitSql"/>
     </select>
 
     <select id="selectRolePerms" resultType="Map">

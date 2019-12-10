@@ -1012,6 +1012,17 @@ public class Utils {
         return BeanUtil.toBean(beanMap, valueType);
     }
 
+    /**
+     * 将对象序列化成json字符串
+     *
+     * @param value javaBean
+     * @param <T>   T 泛型标记
+     * @return jsonString json字符串
+     */
+    public static <T> String toJson(T value) {
+        return JsonUtil.toJson(value);
+    }
+
     public static boolean retBool(Integer result) {
         return null != result && result >= 1;
     }
@@ -1084,12 +1095,12 @@ public class Utils {
         return dir;
     }
 
-    public static String getLoginUserId() {
+    public static Integer getLoginUserId() {
         TokenStub stub = TokenUtil.extractTokenStub();
         if (stub == null) {
             return null;
         }
-        return String.valueOf(stub.getUserId());
+        return stub.getUserId();
     }
 
     public static HttpServletRequest getRequest() {

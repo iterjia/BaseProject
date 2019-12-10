@@ -15,12 +15,12 @@
 
     <select id="selectList" parameterType="QueryParam" resultMap="tagResultMap">
         select * from t_tag
-        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+        <include refid="com.hy.common.base.mapper.CmnMapper.orderAndLimitSql"/>
     </select>
 
     <select id="selectCount" parameterType="QueryParam" resultType="int">
         select count(id) from t_tag
-        <include refid="com.hy.common.base.mapper.CommonMapper.orderAndLimitSql"/>
+        <include refid="com.hy.common.base.mapper.CmnMapper.orderAndLimitSql"/>
     </select>
 
     <insert id="insert" parameterType="Tag">

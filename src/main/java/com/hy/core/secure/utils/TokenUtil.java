@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * JWT标准中注册的声明 (建议但不强制使用) ：
@@ -58,6 +59,7 @@ public class TokenUtil {
 
         //构建JWT的类
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JsonWebToken")
+                .setId(UUID.randomUUID().toString())
                 .setIssuer("issuser")
                 .setAudience("audience")
                 .signWith(signatureAlgorithm, signingKey);
@@ -140,7 +142,7 @@ public class TokenUtil {
     public static TokenStub extractTokenStub() {
         HttpServletRequest request = WebUtil.getRequest();
         if (request == null) {
-            return null;
+            return new TokenStub();
         }
 
         Claims claims = getClaims(request);
@@ -148,13 +150,15 @@ public class TokenUtil {
     }
 
     public static TokenStub extractTokenStub(Claims claims) {
+        TokenStub tokenStub = new TokenStub();
         if (claims == null) {
-            return null;
+            return tokenStub;
         }
 
-        TokenStub tokenStub = new TokenStub();
         tokenStub.setUserId(Utils.toInt(claims.get(TokenStub.USER_ID)));
         tokenStub.setAccount(Utils.toStr(claims.get(TokenStub.ACCOUNT)));
+        tokenStub.setName(Utils.toStr(claims.get(TokenStub.NAME)));
+        tokenStub.setRoleBits(Utils.toInt(claims.get(TokenStub.ROLE_BITS)));
         tokenStub.setRoleIds(Utils.toStr(claims.get(TokenStub.ROLE_IDS)));
         tokenStub.setRoleNames(Utils.toStr(claims.get(TokenStub.ROLE_NAMES)));
         return tokenStub;

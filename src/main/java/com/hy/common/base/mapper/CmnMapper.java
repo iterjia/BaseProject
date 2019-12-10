@@ -1,5 +1,5 @@
 package com.hy.common.base.mapper;
 
-public interface CommonMapper {
+public interface CmnMapper {
 
 }
